@@ -60,7 +60,6 @@ export default function Inventory() {
     var categoriaNome =  prompt(`Digite uma nova categoria:`)
 
     const novoEstoque =  [...estoque] ; 
-    // const x = novoEstoque.length
 
     for (const item of novoEstoque) {
         categorias.push(item.categoria)
