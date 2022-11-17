@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useState } from 'react'
 import '../App.css'
 
@@ -26,6 +27,21 @@ const estoqueInicial = [
 
 export default function Inventory() {
   const [estoque, setEstoque] = useState(estoqueInicial)
+  const [categoriasQuantidade, setCategoriasQuantidade] = useState(0)
+  const [produtosQuantidade, setProdutosQuantidade] = useState(0)
+  let produtos = []
+  let categorias = []
+
+  useEffect(() => {
+    for (const item of estoque) {
+      categorias.push(item.categoria)
+      for (const produto of item.produtos) {
+        produtos.push(produto.nome)
+      }
+    }
+    setProdutosQuantidade(produtos.length)
+    setCategoriasQuantidade(categorias.length)
+  }, [categorias, produtos, estoque])
 
   function adicionarProduto(item) {
     var produtoNome =  prompt(`Digite um novo produto para ${item.categoria}:`)
@@ -33,12 +49,8 @@ export default function Inventory() {
 
     const novoEstoque =  [...estoque] ; 
     const x = novoEstoque.indexOf(item)
-    const produtoNomes = []
 
-    for (const produto of novoEstoque[x].produtos) {
-      produtoNomes.push(produto.nome)
-    }
-    if (produtoNome && produtoValor && !produtoNomes.includes(produtoNome)) {
+    if (produtoNome && produtoValor && !produtos.includes(produtoNome)) {
       novoEstoque[x].produtos.push({nome: produtoNome, valor: produtoValor}) 
     }
     setEstoque(novoEstoque)
@@ -48,13 +60,12 @@ export default function Inventory() {
     var categoriaNome =  prompt(`Digite uma nova categoria:`)
 
     const novoEstoque =  [...estoque] ; 
-    const x = novoEstoque.length
-    const categoriaNomes = []
+    // const x = novoEstoque.length
 
     for (const item of novoEstoque) {
-        categoriaNomes.push(item.categoria)
+        categorias.push(item.categoria)
     }
-    if (categoriaNome && !categoriaNomes.includes(categoriaNome)) {
+    if (categoriaNome && !categorias.includes(categoriaNome)) {
       novoEstoque.push(
         {
           categoria: categoriaNome,
@@ -67,6 +78,7 @@ export default function Inventory() {
 
   return (
     <div>
+      <p>Atualmente com {categoriasQuantidade} categorias e {produtosQuantidade} produtos</p>
       <p 
         className='btn' 
         title='Adicionar categoria' 
