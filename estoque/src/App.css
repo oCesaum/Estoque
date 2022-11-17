@@ -1,10 +1,28 @@
 .App {
-  margin-left: 15px;
   color: white;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .App-header {
   font-size: calc(10px + 1vmin);
+}
+
+.App-header h1 {
+  text-transform: uppercase;
+  width: fit-content;
+  background: tomato;
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+
+.Inventory-counter-text {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.Inventory-counter-text span {
+  color: tomato;
 }
 
 .Inventory-category-container {
@@ -13,12 +31,53 @@
   gap: 10px;
 }
 
-.btn {
-  cursor: pointer;
-  background-color: azure;
-  color: #282c34;
+.Inventory-products {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Inventory-products-product {
+  background: tomato;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 50px;
+  margin: 5px;
+  padding: 5px 10px;
   font-weight: bold;
-  padding: 0px 6px 3px;
+}
+
+.Inventory-products-product:hover {
+  background-color: rgb(205, 59, 33);
+  cursor: pointer;
+}
+
+.Inventory-products-product p:nth-child(1) {
+  margin-right: 5px;
+}
+
+.btn-category {
+  cursor: pointer;
+  background-color: tomato;
+  color: white;
+  font-weight: bold;
+  padding: 5px 12px;  
   width: fit-content;
   border-radius: 5px;
+}
+
+.btn-product {
+  cursor: pointer;
+  background-color: tomato;
+  color: white;
+  font-weight: bold;
+  padding: 2px 8px;
+  font-size: 20px;
+  width: fit-content;
+  border-radius: 5px;
+}
+
+.btn-category:hover, .btn-product:hover, .App-header h1:hover {
+  background-color: rgb(205, 59, 33);
 }
