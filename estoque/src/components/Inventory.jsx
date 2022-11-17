@@ -82,9 +82,6 @@ export default function Inventory() {
 
     const novoEstoque =  [...estoque] ; 
 
-    for (const item of novoEstoque) {
-        categorias.push(item.categoria)
-    }
     if (categoriaNome && !categorias.includes(categoriaNome)) {
       novoEstoque.push(
         {
