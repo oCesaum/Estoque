@@ -50,8 +50,18 @@ export default function Inventory() {
   const [estoque, setEstoque] = useState(estoqueInicial)
   const [categoriasQuantidade, setCategoriasQuantidade] = useState(0)
   const [produtosQuantidade, setProdutosQuantidade] = useState(0)
+  const [ativo, setAtivo ] = useState(false)
+  const [categoriaNome, setCategoriaNome ] = useState("")
+
   let produtos = []
   let categorias = []
+
+  // function verificarAtivo() {
+  //   setAtivo(!ativo)
+  //   if (ativo === false) {
+  //     return "hiden"
+  //   }
+  // }
 
   useEffect(() => {
     for (const item of estoque) {
@@ -77,9 +87,25 @@ export default function Inventory() {
     setEstoque(novoEstoque)
   }
 
-  function adicionarCategoria() {
-    var categoriaNome =  prompt(`Digite uma nova categoria:`)
+  function mudarCategoriaNome(e) {
+    setCategoriaNome(e.target.value)
+  }
 
+  function limparValor() {
+    setCategoriaNome("")
+  }
+
+  function verificarTecla(e) {
+    if (e.keyCode === 13) {
+      adicionarCategoria()
+    }
+    if (e.keyCode === 27) {
+      setAtivo(false)
+      limparValor()
+    }
+  }
+
+  function adicionarCategoria() {
     const novoEstoque =  [...estoque] ; 
 
     if (categoriaNome && !categorias.includes(categoriaNome)) {
@@ -91,22 +117,43 @@ export default function Inventory() {
       ) 
     }
     setEstoque(novoEstoque)
+    setAtivo(false)
+    limparValor()
   }
 
   return (
     <div>
       <p className='Inventory-counter-text'>Atualmente contamos com <span>{categoriasQuantidade}</span> categorias e <span>{produtosQuantidade}</span> produtos</p>
-      <p 
-        className='btn-category' 
-        title='Adicionar categoria' 
-        onClick={adicionarCategoria}
-      >
-        Adicionar categoria
-      </p>
+      <div className='Invetory-header'>
+        <p 
+          className='btn-category' 
+          title='Adicionar categoria' 
+          onClick={() => setAtivo(true)}
+        >
+          Adicionar categoria
+        </p>
 
-      {/* <div>
-        <input type="text" name="categoria" placeholder='Digite uma nova categoria:'/>
-      </div> */}
+        <div className={ativo === true ? ("") : ("hiden")}>
+          <div className='Inventory-category-creator'>
+            <input 
+              onChange={mudarCategoriaNome} 
+              onKeyDown={verificarTecla}
+              value={categoriaNome} 
+              type="text" 
+              className='Input-text' 
+              placeholder='Digite uma nova categoria:'
+              title="Digite uma nova categoria"
+            />
+            <input 
+              onClick={adicionarCategoria} 
+              type="submit" 
+              className='Input-submit' 
+              disabled={!categoriaNome}
+              title="Adicionar categoria"
+            />
+          </div>
+        </div>
+      </div>
 
       {estoque.map(item => 
         <div key={item.categoria}>

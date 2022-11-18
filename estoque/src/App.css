@@ -16,6 +16,10 @@
   border-radius: 5px;
 }
 
+.Invetory-header p:nth-child(1) {
+  margin-right: 10px;
+}
+
 .Inventory-counter-text {
   text-transform: uppercase;
   font-weight: bold;
@@ -23,6 +27,20 @@
 
 .Inventory-counter-text span {
   color: tomato;
+}
+
+.Inventory-category-creator {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 75px;
+  background: #2a3846;
+  border-radius: 10px;
+  border: solid 2px tomato;
+  left: 40%;
+  top: 2%;
 }
 
 .Inventory-category-container {
@@ -57,6 +75,50 @@
   margin-right: 5px;
 }
 
+.hiden {
+  display: none;
+}
+
+.Input-text {
+  background-color: tomato;
+  color: white;
+  font-weight: bold;
+  padding: 5px 12px;  
+  width: fit-content;
+  border-radius: 5px;
+  border: none;
+  width: 204px;
+  outline: none;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.Input-submit {
+  background-color: tomato;
+  color: white;
+  font-weight: bold;
+  padding: 5px 12px;  
+  width: fit-content;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Input-submit:disabled, .Input-submit:disabled:hover {
+  background-color: rgb(145, 43, 25);
+}
+
+.Input-text:focus::placeholder {
+  color: tomato;
+}
+
+.Input-text::placeholder {
+  color: white;
+  font-size: 16px;
+}
+
 .btn-category {
   cursor: pointer;
   background-color: tomato;
@@ -78,6 +140,6 @@
   border-radius: 5px;
 }
 
-.btn-category:hover, .btn-product:hover, .App-header h1:hover {
+.btn-category:hover, .btn-product:hover, .App-header h1:hover, .Input-submit:hover  {
   background-color: rgb(205, 59, 33);
 }
