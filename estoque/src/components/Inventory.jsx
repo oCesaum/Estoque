@@ -50,18 +50,15 @@ export default function Inventory() {
   const [estoque, setEstoque] = useState(estoqueInicial)
   const [categoriasQuantidade, setCategoriasQuantidade] = useState(0)
   const [produtosQuantidade, setProdutosQuantidade] = useState(0)
-  const [ativo, setAtivo ] = useState(false)
+  const [ativoCategoria, setAtivoCategoria ] = useState(false)
+  const [ativoProduto, setAtivoProduto ] = useState(false)
   const [categoriaNome, setCategoriaNome ] = useState("")
+  const [produtoNome, setProdutoNome ] = useState("")
+  const [produtoValor, setProdutoValor ] = useState("")
+  const [produtoIndex, setProdutoIndex ] = useState()
 
   let produtos = []
   let categorias = []
-
-  // function verificarAtivo() {
-  //   setAtivo(!ativo)
-  //   if (ativo === false) {
-  //     return "hiden"
-  //   }
-  // }
 
   useEffect(() => {
     for (const item of estoque) {
@@ -74,35 +71,58 @@ export default function Inventory() {
     setCategoriasQuantidade(categorias.length)
   }, [categorias, produtos, estoque])
 
-  function adicionarProduto(item) {
-    var produtoNome =  prompt(`Digite um novo produto para ${item.categoria}:`)
-    var produtoValor = parseFloat(prompt(`Digite um valor para ${produtoNome}:`))
-
-    const novoEstoque =  [...estoque] ; 
-    const x = novoEstoque.indexOf(item)
-
-    if (produtoNome && produtoValor && !produtos.includes(produtoNome)) {
-      novoEstoque[x].produtos.push({nome: produtoNome, valor: produtoValor}) 
-    }
-    setEstoque(novoEstoque)
-  }
-
   function mudarCategoriaNome(e) {
     setCategoriaNome(e.target.value)
   }
 
+  function mudarProdutoNome(e) {
+    setProdutoNome(e.target.value)
+  }
+
+  function mudarProdutoValor(e) {
+    setProdutoValor(parseFloat(e.target.value))
+  }
+
+  function fecharJanela() {
+    setAtivoCategoria(false)
+    setAtivoProduto(false)
+    limparValor()
+  }
+
   function limparValor() {
     setCategoriaNome("")
+    setProdutoNome("")
+    setProdutoValor("")
   }
 
   function verificarTecla(e) {
     if (e.keyCode === 13) {
-      adicionarCategoria()
+      if (categoriaNome) {
+        adicionarCategoria()
+      }
+      if (produtoNome && produtoValor) {
+        adicionarProduto()
+      }
     }
     if (e.keyCode === 27) {
-      setAtivo(false)
-      limparValor()
+      fecharJanela()
     }
+  }
+
+  function abrirModal(item) {
+    fecharJanela()
+    setAtivoProduto(true)
+    setProdutoIndex(estoque.indexOf(item))
+  }
+
+  function adicionarProduto() {
+    const novoEstoque =  [...estoque] ;
+
+    if (produtoNome && produtoValor && !produtos.includes(produtoNome)) {
+      novoEstoque[produtoIndex].produtos.push({nome: produtoNome, valor: produtoValor}) 
+    }
+    setEstoque(novoEstoque)
+    fecharJanela()
   }
 
   function adicionarCategoria() {
@@ -117,23 +137,23 @@ export default function Inventory() {
       ) 
     }
     setEstoque(novoEstoque)
-    setAtivo(false)
-    limparValor()
+    fecharJanela()
   }
 
   return (
     <div>
       <p className='Inventory-counter-text'>Atualmente contamos com <span>{categoriasQuantidade}</span> categorias e <span>{produtosQuantidade}</span> produtos</p>
       <div className='Invetory-header'>
-        <p 
+        <button 
           className='btn-category' 
           title='Adicionar categoria' 
-          onClick={() => setAtivo(true)}
+          onClick={() => setAtivoCategoria(true)}
+          disabled={ativoProduto === true}
         >
           Adicionar categoria
-        </p>
+        </button>
 
-        <div className={ativo === true ? ("") : ("hiden")}>
+        <div className={ativoCategoria === true ? ("") : ("hiden")}>
           <div className='Inventory-category-creator'>
             <input 
               onChange={mudarCategoriaNome} 
@@ -147,21 +167,61 @@ export default function Inventory() {
             <input 
               onClick={adicionarCategoria} 
               type="submit" 
-              className='Input-submit' 
+              className='Input-submit-category' 
               disabled={!categoriaNome}
               title="Adicionar categoria"
             />
+            <button onClick={fecharJanela} className='btn-close'>X</button>
           </div>
         </div>
       </div>
 
       {estoque.map(item => 
-        <div key={item.categoria}>
+          <div key={item.categoria}>
           <div className='Inventory-category-container'>
             <h2 className='Inventory-category'>
               {item.categoria}
             </h2>
-            <p className='btn-product' title='Adicionar produto' onClick={() => adicionarProduto(item)}>+</p>
+            <button 
+              className='btn-product' 
+              title='Adicionar produto' 
+              onClick={() => abrirModal(item)}
+              disabled={ativoCategoria === true}
+            >
+              +
+            </button>
+            <div className={ativoProduto === true ? ("") : ("hiden")}>
+              <div className='Inventory-product-creator'>
+                <div className='Inventory-product-creator-input'>
+                  <input 
+                    onChange={mudarProdutoNome} 
+                    onKeyDown={verificarTecla}
+                    value={produtoNome} 
+                    type="text" 
+                    className='Input-text' 
+                    placeholder='Digite um novo produto:'
+                    title="Digite um novo produto"
+                  />
+                  <input 
+                    onChange={mudarProdutoValor} 
+                    onKeyDown={verificarTecla}
+                    value={produtoValor} 
+                    type="number" 
+                    className='Input-text' 
+                    placeholder='Digite um valor para o produto:'
+                    title="Digite um valor para o produto"
+                  />
+                </div>
+                <input 
+                  onClick={adicionarProduto} 
+                  type="submit" 
+                  className='Input-submit-product' 
+                  disabled={!produtoValor}
+                  title="Adicionar produto"
+                />
+                <button onClick={fecharJanela} className='btn-close'>X</button>
+              </div>
+            </div>
           </div>
 
           <div className='Inventory-products'>

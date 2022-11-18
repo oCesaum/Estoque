@@ -5,7 +5,7 @@
 }
 
 .App-header {
-  font-size: calc(10px + 1vmin);
+  font-size: 16px;
 }
 
 .App-header h1 {
@@ -40,13 +40,39 @@
   border-radius: 10px;
   border: solid 2px tomato;
   left: 40%;
-  top: 2%;
+  top: 4%;
 }
 
 .Inventory-category-container {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.Inventory-product-creator {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 380px;
+  height: 110px;
+  background: #2a3846;
+  border-radius: 10px;
+  border: solid 2px tomato;
+  left: 40%;
+  top: 4%;
+  flex-wrap: wrap;
+}
+
+.Inventory-product-creator-input {
+  display: flex;
+  flex-direction: column;
+  margin-left: -5px;
+}
+
+.Inventory-product-creator-input input {
+  margin: 3px 0;
+  width: 240px;
 }
 
 .Inventory-products {
@@ -93,7 +119,7 @@
   margin-right: 10px;
 }
 
-.Input-submit {
+.Input-submit-category {
   background-color: tomato;
   color: white;
   font-weight: bold;
@@ -106,7 +132,30 @@
   cursor: pointer;
 }
 
-.Input-submit:disabled, .Input-submit:disabled:hover {
+.Input-submit-product {
+  background-color: tomato;
+  color: white;
+  font-weight: bold;
+  padding: 5px 12px;  
+  width: fit-content;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  bottom: -18px;
+  right: -9px;
+}
+
+.Input-submit-category:disabled, 
+.Input-submit-category:disabled:hover, 
+.Input-submit-product:disabled, 
+.Input-submit-product:disabled:hover,
+.btn-category:disabled, 
+.btn-product:disabled,
+.btn-category:disabled:hover, 
+.btn-product:disabled:hover {
   background-color: rgb(145, 43, 25);
 }
 
@@ -127,6 +176,8 @@
   padding: 5px 12px;  
   width: fit-content;
   border-radius: 5px;
+  font-size: 16px;
+  border: none;
 }
 
 .btn-product {
@@ -138,8 +189,29 @@
   font-size: 20px;
   width: fit-content;
   border-radius: 5px;
+  border: none;
 }
 
-.btn-category:hover, .btn-product:hover, .App-header h1:hover, .Input-submit:hover  {
+.btn-category:hover, 
+.btn-product:hover, 
+.App-header h1:hover, 
+.Input-submit:hover {
   background-color: rgb(205, 59, 33);
+}
+
+.btn-close {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #2a3846;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 5px 9px;
+  color: white;
+  border: solid 2px tomato;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  background: #384859;
 }
