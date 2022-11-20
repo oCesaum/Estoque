@@ -56,9 +56,10 @@ export default function Inventory() {
   const [produtoNome, setProdutoNome ] = useState("")
   const [produtoValor, setProdutoValor ] = useState("")
   const [produtoIndex, setProdutoIndex ] = useState()
+  const [categoria, setCategoria ] = useState()
 
-  let produtos = []
-  let categorias = []
+  var produtos = []
+  var categorias = []
 
   useEffect(() => {
     for (const item of estoque) {
@@ -109,10 +110,14 @@ export default function Inventory() {
     }
   }
 
-  function abrirModal(item) {
-    fecharJanela()
-    setAtivoProduto(true)
-    setProdutoIndex(estoque.indexOf(item))
+  function abrirModal(item, prop) {
+    if (prop === "categoria") {
+      setAtivoCategoria(true)
+    } else {
+      setAtivoProduto(true)
+      setCategoria(item.categoria)
+      setProdutoIndex(estoque.indexOf(item))
+    }
   }
 
   function adicionarProduto() {
@@ -147,23 +152,31 @@ export default function Inventory() {
         <button 
           className='btn-category' 
           title='Adicionar categoria' 
-          onClick={() => setAtivoCategoria(true)}
-          disabled={ativoProduto === true}
+          onClick={() =>abrirModal("", "categoria")}
         >
           Adicionar categoria
         </button>
 
-        <div className={ativoCategoria === true ? ("") : ("hiden")}>
+        <div className={ativoCategoria === true ? ("transparent") : ("hiden")}>
           <div className='Inventory-category-creator'>
-            <input 
-              onChange={mudarCategoriaNome} 
-              onKeyDown={verificarTecla}
-              value={categoriaNome} 
-              type="text" 
-              className='Input-text' 
-              placeholder='Digite uma nova categoria:'
-              title="Digite uma nova categoria"
-            />
+            <div className='Inventory-category-creator-input'>
+              <label 
+                name='category'
+              >
+                Digite uma nova categoria:
+              </label>
+              <input 
+                
+                autoFocus={ativoCategoria !== true}
+                onChange={mudarCategoriaNome} 
+                onKeyDown={verificarTecla}
+                value={categoriaNome} 
+                type="text" 
+                className='Input-text' 
+                name='category'
+                title="Digite uma nova categoria"
+              />
+            </div>
             <input 
               onClick={adicionarCategoria} 
               type="submit" 
@@ -185,30 +198,40 @@ export default function Inventory() {
             <button 
               className='btn-product' 
               title='Adicionar produto' 
-              onClick={() => abrirModal(item)}
-              disabled={ativoCategoria === true}
+              onClick={() => abrirModal(item, "produto")}
             >
               +
             </button>
-            <div className={ativoProduto === true ? ("") : ("hiden")}>
+            <div className={ativoProduto === true ? ("transparent") : ("hiden")}>
               <div className='Inventory-product-creator'>
                 <div className='Inventory-product-creator-input'>
+                  <label>Adicionar novo produto em <span>{categoria}</span></label>
+                  <label
+                    name='productName'
+                  >
+                    Digite um novo produto:
+                  </label>
                   <input 
+                    name='productName'
                     onChange={mudarProdutoNome} 
                     onKeyDown={verificarTecla}
                     value={produtoNome} 
                     type="text" 
                     className='Input-text' 
-                    placeholder='Digite um novo produto:'
                     title="Digite um novo produto"
                   />
+                  <label
+                    name='productValue'
+                  >
+                    Digite um valor para o produto:
+                  </label>
                   <input 
+                    name='productValue'
                     onChange={mudarProdutoValor} 
                     onKeyDown={verificarTecla}
                     value={produtoValor} 
                     type="number" 
                     className='Input-text' 
-                    placeholder='Digite um valor para o produto:'
                     title="Digite um valor para o produto"
                   />
                 </div>

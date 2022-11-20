@@ -39,8 +39,19 @@
   background: #2a3846;
   border-radius: 10px;
   border: solid 2px tomato;
-  left: 40%;
+  /* left: 40%; */
   top: 4%;
+}
+
+.Inventory-category-creator label {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.Inventory-category-creator-input {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .Inventory-category-container {
@@ -55,13 +66,22 @@
   justify-content: center;
   align-items: center;
   width: 380px;
-  height: 110px;
+  height: 175px;
   background: #2a3846;
   border-radius: 10px;
   border: solid 2px tomato;
   left: 40%;
   top: 4%;
   flex-wrap: wrap;
+}
+
+.Inventory-product-creator label {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.Inventory-product-creator label span {
+  color: tomato;
 }
 
 .Inventory-product-creator-input {
@@ -72,7 +92,7 @@
 
 .Inventory-product-creator-input input {
   margin: 3px 0;
-  width: 240px;
+  width: 255px;
 }
 
 .Inventory-products {
@@ -130,6 +150,8 @@
   outline: none;
   font-size: 16px;
   cursor: pointer;
+  position: relative;
+  top: 18%;
 }
 
 .Input-submit-product {
@@ -144,28 +166,31 @@
   font-size: 16px;
   cursor: pointer;
   position: relative;
-  bottom: -18px;
+  bottom: -60px;
   right: -9px;
 }
 
 .Input-submit-category:disabled, 
 .Input-submit-category:disabled:hover, 
 .Input-submit-product:disabled, 
-.Input-submit-product:disabled:hover,
-.btn-category:disabled, 
-.btn-product:disabled,
-.btn-category:disabled:hover, 
-.btn-product:disabled:hover {
+.Input-submit-product:disabled:hover {
   background-color: rgb(145, 43, 25);
-}
-
-.Input-text:focus::placeholder {
-  color: tomato;
 }
 
 .Input-text::placeholder {
   color: white;
   font-size: 16px;
+}
+
+.transparent {
+  width: 100%;
+  background-color: rgb(23 24 28 / 50%);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .btn-category {
