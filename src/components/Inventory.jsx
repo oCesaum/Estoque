@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useState } from 'react'
 import '../App.css'
 
@@ -48,29 +47,26 @@ const estoqueInicial = [
 
 export default function Inventory() {
   const [estoque, setEstoque] = useState(estoqueInicial)
-  const [categoriasQuantidade, setCategoriasQuantidade] = useState(0)
-  const [produtosQuantidade, setProdutosQuantidade] = useState(0)
   const [ativoCategoria, setAtivoCategoria ] = useState(false)
   const [ativoProduto, setAtivoProduto ] = useState(false)
   const [categoriaNome, setCategoriaNome ] = useState("")
   const [produtoNome, setProdutoNome ] = useState("")
   const [produtoValor, setProdutoValor ] = useState("")
-  const [produtoIndex, setProdutoIndex ] = useState()
-  const [categoria, setCategoria ] = useState()
+  const [categoriaIndex, setCategoriaIndex ] = useState(-1)
+  const [categoria, setCategoria ] = useState("")
 
   var produtos = []
   var categorias = []
 
-  useEffect(() => {
-    for (const item of estoque) {
-      categorias.push(item.categoria)
-      for (const produto of item.produtos) {
-        produtos.push(produto.nome)
-      }
+  for (const item of estoque) {
+    categorias.push(item.categoria)
+    for (const produto of item.produtos) {
+      produtos.push(produto.nome)
     }
-    setProdutosQuantidade(produtos.length)
-    setCategoriasQuantidade(categorias.length)
-  }, [categorias, produtos, estoque])
+  }
+
+  var categoriasQuantidade = categorias.length
+  var produtosQuantidade = produtos.length
 
   function mudarCategoriaNome(e) {
     setCategoriaNome(e.target.value)
@@ -116,16 +112,19 @@ export default function Inventory() {
     } else {
       setAtivoProduto(true)
       setCategoria(item.categoria)
-      setProdutoIndex(estoque.indexOf(item))
+      setCategoriaIndex(estoque.indexOf(item))
     }
   }
 
   function adicionarProduto() {
     const novoEstoque =  [...estoque] ;
 
-    if (produtoNome && produtoValor && !produtos.includes(produtoNome)) {
-      novoEstoque[produtoIndex].produtos.push({nome: produtoNome, valor: produtoValor}) 
+    for (const item of estoque) {
+      if (categoria === item.categoria && !estoque[categoriaIndex].produtos.includes(produtoNome)) {
+        novoEstoque[categoriaIndex].produtos.push({nome: produtoNome, valor: produtoValor}) 
+      }
     }
+   
     setEstoque(novoEstoque)
     fecharJanela()
   }
@@ -157,36 +156,37 @@ export default function Inventory() {
           Adicionar categoria
         </button>
 
-        <div className={ativoCategoria === true ? ("transparent") : ("hiden")}>
-          <div className='Inventory-category-creator'>
-            <div className='Inventory-category-creator-input'>
-              <label 
-                name='category'
-              >
-                Digite uma nova categoria:
-              </label>
+        {ativoCategoria && 
+          <div className="transparent">
+            <div className='Inventory-category-creator'>
+              <div className='Inventory-category-creator-input'>
+                <label 
+                  name='category'
+                >
+                  Digite uma nova categoria:
+                </label>
+                <input 
+                  autoFocus
+                  onChange={mudarCategoriaNome} 
+                  onKeyDown={verificarTecla}
+                  value={categoriaNome} 
+                  type="text" 
+                  className='Input-text' 
+                  name='category'
+                  title="Digite uma nova categoria"
+                />
+              </div>
               <input 
-                
-                autoFocus={ativoCategoria !== true}
-                onChange={mudarCategoriaNome} 
-                onKeyDown={verificarTecla}
-                value={categoriaNome} 
-                type="text" 
-                className='Input-text' 
-                name='category'
-                title="Digite uma nova categoria"
+                onClick={adicionarCategoria} 
+                type="submit" 
+                className='Input-submit-category' 
+                disabled={!categoriaNome}
+                title="Adicionar categoria"
               />
+              <button onClick={fecharJanela} className='btn-close'>X</button>
             </div>
-            <input 
-              onClick={adicionarCategoria} 
-              type="submit" 
-              className='Input-submit-category' 
-              disabled={!categoriaNome}
-              title="Adicionar categoria"
-            />
-            <button onClick={fecharJanela} className='btn-close'>X</button>
           </div>
-        </div>
+        }
       </div>
 
       {estoque.map(item => 
@@ -202,49 +202,54 @@ export default function Inventory() {
             >
               +
             </button>
-            <div className={ativoProduto === true ? ("transparent") : ("hiden")}>
-              <div className='Inventory-product-creator'>
-                <div className='Inventory-product-creator-input'>
-                  <label>Adicionar novo produto em <span>{categoria}</span></label>
-                  <label
-                    name='productName'
-                  >
-                    Digite um novo produto:
-                  </label>
-                  <input 
-                    name='productName'
-                    onChange={mudarProdutoNome} 
-                    onKeyDown={verificarTecla}
-                    value={produtoNome} 
-                    type="text" 
-                    className='Input-text' 
-                    title="Digite um novo produto"
-                  />
-                  <label
-                    name='productValue'
-                  >
-                    Digite um valor para o produto:
-                  </label>
-                  <input 
-                    name='productValue'
-                    onChange={mudarProdutoValor} 
-                    onKeyDown={verificarTecla}
-                    value={produtoValor} 
-                    type="number" 
-                    className='Input-text' 
-                    title="Digite um valor para o produto"
-                  />
+            {ativoProduto &&
+              <div className="transparent">
+                <div className='Inventory-product-creator-container'>
+                  <div className='Inventory-product-creator'>
+                    <div className='Inventory-product-creator-input'>
+                      <label>Adicionar novo produto em <span>{categoria}</span></label>
+                      <label
+                        name='productName'
+                      >
+                        Digite um novo produto:
+                      </label>
+                      <input 
+                        autoFocus
+                        name='productName'
+                        onChange={mudarProdutoNome} 
+                        onKeyDown={verificarTecla}
+                        value={produtoNome} 
+                        type="text" 
+                        className='Input-text' 
+                        title="Digite um novo produto"
+                      />
+                      <label
+                        name='productValue'
+                      >
+                        Digite um valor para o produto:
+                      </label>
+                      <input 
+                        name='productValue'
+                        onChange={mudarProdutoValor} 
+                        onKeyDown={verificarTecla}
+                        value={produtoValor} 
+                        type="number" 
+                        className='Input-text' 
+                        title="Digite um valor para o produto"
+                      />
+                    </div>
+                    <input 
+                      onClick={adicionarProduto} 
+                      type="submit" 
+                      className='Input-submit-product' 
+                      disabled={!produtoNome || !produtoValor}
+                      title="Adicionar produto"
+                    />
+                  </div>
+                  <button onClick={fecharJanela} className='btn-close'>X</button>
                 </div>
-                <input 
-                  onClick={adicionarProduto} 
-                  type="submit" 
-                  className='Input-submit-product' 
-                  disabled={!produtoValor}
-                  title="Adicionar produto"
-                />
-                <button onClick={fecharJanela} className='btn-close'>X</button>
               </div>
-            </div>
+            }
           </div>
 
           <div className='Inventory-products'>

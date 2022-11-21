@@ -30,7 +30,7 @@
 }
 
 .Inventory-category-creator {
-  position: absolute;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,8 +39,13 @@
   background: #2a3846;
   border-radius: 10px;
   border: solid 2px tomato;
-  /* left: 40%; */
   top: 4%;
+}
+
+.Inventory-category-creator .btn-close {
+  position: relative;
+  top: -40px;
+  right: -8px;
 }
 
 .Inventory-category-creator label {
@@ -49,6 +54,7 @@
 }
 
 .Inventory-category-creator-input {
+  margin-left: 25px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -60,19 +66,28 @@
   gap: 10px;
 }
 
+.Inventory-product-creator-container {
+  display: flex;
+  justify-content: center;
+}
+
+.Inventory-product-creator-container .btn-close {
+  position: relative;
+  top: 15px;
+  right: 15px;
+}
+
 .Inventory-product-creator {
-  position: absolute;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   width: 380px;
   height: 175px;
   background: #2a3846;
   border-radius: 10px;
   border: solid 2px tomato;
-  left: 40%;
-  top: 4%;
-  flex-wrap: wrap;
 }
 
 .Inventory-product-creator label {
@@ -87,7 +102,6 @@
 .Inventory-product-creator-input {
   display: flex;
   flex-direction: column;
-  margin-left: -5px;
 }
 
 .Inventory-product-creator-input input {
@@ -119,10 +133,6 @@
 
 .Inventory-products-product p:nth-child(1) {
   margin-right: 5px;
-}
-
-.hiden {
-  display: none;
 }
 
 .Input-text {
@@ -168,6 +178,7 @@
   position: relative;
   bottom: -60px;
   right: -9px;
+  margin-right: 10px;
 }
 
 .Input-submit-category:disabled, 
@@ -183,14 +194,14 @@
 }
 
 .transparent {
+  display: flex;
+  justify-content: center;
   width: 100%;
   background-color: rgb(23 24 28 / 50%);
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  justify-content: center;
 }
 
 .btn-category {
@@ -225,9 +236,6 @@
 }
 
 .btn-close {
-  position: absolute;
-  top: -15px;
-  right: -15px;
   background: #2a3846;
   border-radius: 5px;
   font-weight: bold;
@@ -235,6 +243,7 @@
   color: white;
   border: solid 2px tomato;
   cursor: pointer;
+  max-height: 30px;
 }
 
 .btn-close:hover {
