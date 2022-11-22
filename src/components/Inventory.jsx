@@ -54,20 +54,15 @@ export default function Inventory() {
   const [produtoValor, setProdutoValor ] = useState("")
   const [categoria, setCategoria ] = useState("")
 
-  const categorias = []
-  var categoriaIndex = 0
-  var produtosQuantidade = 0
-  var categoriasQuantidade = estoque.length
+  const categoriasQuantidade = estoque.length
 
-  function somaProdutos() {
+  const produtosQuantidade = useMemo(() => {
+    var quantidade = 0
     for (const item of estoque) {
-      categorias.push(item.categoria)
-      produtosQuantidade += item.produtos.length
+      quantidade += item.produtos.length
     }
-  }
-
-  const memorizarProdutos = useMemo(() => somaProdutos(somaProdutos), [estoque]);
-
+    return quantidade
+  }, [estoque]);
 
   function mudarCategoriaNome(e) {
     setCategoriaNome(e.target.value)
@@ -117,6 +112,7 @@ export default function Inventory() {
   }
 
   function adicionarProduto() {
+    var categoriaIndex;
     for (const item of estoque) {
       if (item.categoria === categoria) {
         categoriaIndex = estoque.indexOf(item)
@@ -138,7 +134,7 @@ export default function Inventory() {
   function adicionarCategoria() {
     const novoEstoque =  [...estoque] ; 
 
-    if (categoriaNome && !categorias.includes(categoriaNome)) {
+    if (categoriaNome && !estoque.find(c => c.categoria === categoriaNome)) {
       novoEstoque.push(
         {
           categoria: categoriaNome,
