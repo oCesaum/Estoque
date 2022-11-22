@@ -56,7 +56,7 @@ export default function Inventory() {
 
   const categoriasQuantidade = estoque.length
 
-  const produtosQuantidade = useMemo(() => estoque.reduce( (prevVal, item) => prevVal += item.produtos.length, 0), [estoque]);
+  const produtosQuantidade = useMemo(() => estoque.reduce((prevVal, item) => prevVal = item.produtos.length, 0), [estoque]);
 
   function mudarCategoriaNome(e) {
     setCategoriaNome(e.target.value)
