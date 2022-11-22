@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../App.css'
 
 const estoqueInicial = [
@@ -54,19 +54,22 @@ export default function Inventory() {
   const [produtoValor, setProdutoValor ] = useState("")
   const [categoria, setCategoria ] = useState("")
 
-  var produtos = []
-  var categorias = []
+  const categorias = []
   var categoriaIndex = 0
+  var produtosQuantidade = 0
+  var categoriasQuantidade = estoque.length
 
-  for (const item of estoque) {
-    categorias.push(item.categoria)
-    for (const produto of item.produtos) {
-      produtos.push(produto.nome)
+  function somaProdutos() {
+    for (const item of estoque) {
+      categorias.push(item.categoria)
+      produtosQuantidade += item.produtos.length
+      console.log("...")
     }
   }
 
-  var categoriasQuantidade = estoque.length
-  var produtosQuantidade = produtos.length
+  useEffect(() => {
+    somaProdutos()
+  }, [estoque])
 
   function mudarCategoriaNome(e) {
     setCategoriaNome(e.target.value)
