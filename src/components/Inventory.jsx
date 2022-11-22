@@ -66,7 +66,7 @@ export default function Inventory() {
     }
   }
 
-  const memorizarProdutos = useMemo(() => somaProdutos(somaProdutos), [somaProdutos, estoque]);
+  const memorizarProdutos = useMemo(() => somaProdutos(somaProdutos), [estoque]);
 
 
   function mudarCategoriaNome(e) {
