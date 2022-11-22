@@ -63,7 +63,6 @@ export default function Inventory() {
     for (const item of estoque) {
       categorias.push(item.categoria)
       produtosQuantidade += item.produtos.length
-      console.log("...")
     }
   }
 
