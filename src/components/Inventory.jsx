@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import '../App.css'
 
 const estoqueInicial = [
@@ -66,9 +66,8 @@ export default function Inventory() {
     }
   }
 
-  useEffect(() => {
-    somaProdutos()
-  }, [estoque])
+  useMemo(() => somaProdutos(), [estoque]);
+
 
   function mudarCategoriaNome(e) {
     setCategoriaNome(e.target.value)
