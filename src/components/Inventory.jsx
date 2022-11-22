@@ -52,11 +52,11 @@ export default function Inventory() {
   const [categoriaNome, setCategoriaNome ] = useState("")
   const [produtoNome, setProdutoNome ] = useState("")
   const [produtoValor, setProdutoValor ] = useState("")
-  const [categoriaIndex, setCategoriaIndex ] = useState(-1)
   const [categoria, setCategoria ] = useState("")
 
   var produtos = []
   var categorias = []
+  var categoriaIndex = 0
 
   for (const item of estoque) {
     categorias.push(item.categoria)
@@ -65,7 +65,7 @@ export default function Inventory() {
     }
   }
 
-  var categoriasQuantidade = categorias.length
+  var categoriasQuantidade = estoque.length
   var produtosQuantidade = produtos.length
 
   function mudarCategoriaNome(e) {
@@ -112,11 +112,16 @@ export default function Inventory() {
     } else {
       setAtivoProduto(true)
       setCategoria(item.categoria)
-      setCategoriaIndex(estoque.indexOf(item))
     }
   }
 
   function adicionarProduto() {
+    for (const item of estoque) {
+      if (item.categoria === categoria) {
+        categoriaIndex = estoque.indexOf(item)
+      }
+    }
+
     const novoEstoque =  [...estoque] ;
 
     for (const item of estoque) {
