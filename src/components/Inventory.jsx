@@ -56,6 +56,20 @@ export default function Inventory() {
 
   const categoriasQuantidade = estoque.length
 
+  const produtoMaisCaro = useMemo(() => {
+    const produtos = []
+    for (const item of estoque) {
+      for (const produto of item.produtos) {
+        produtos.push(produto)
+      }
+    }
+    var max = produtos.map(p => p.valor).reduce(function(a, b) {
+      return Math.max(a, b);
+    });
+    var nome = produtos.find(p => p.valor === max)
+    return nome
+  }, [estoque]) 
+
   const produtosQuantidade = useMemo(() => estoque.reduce((prevVal, item) => prevVal + item.produtos.length, 0), [estoque]);
 
   function mudarCategoriaNome(e) {
@@ -143,6 +157,8 @@ export default function Inventory() {
   return (
     <div>
       <p className='Inventory-counter-text'>Atualmente contamos com <span>{categoriasQuantidade}</span> categorias e <span>{produtosQuantidade}</span> produtos</p>
+      <p className='Inventory-counter-text'>Produto mais caro atualmente: <span>{produtoMaisCaro.nome}</span>, custando <span>R${produtoMaisCaro.valor}</span></p>
+
       <div className='Invetory-header'>
         <button 
           className='btn-category' 
