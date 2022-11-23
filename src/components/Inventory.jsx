@@ -57,17 +57,15 @@ export default function Inventory() {
   const categoriasQuantidade = estoque.length
 
   const produtoMaisCaro = useMemo(() => {
-    const produtos = []
-    for (const item of estoque) {
-      for (const produto of item.produtos) {
-        produtos.push(produto)
+    var valInit = {valor: 0}
+    for (const categoria of estoque) {
+      for (const produto of categoria.produtos) {
+        if (produto.valor > valInit.valor) {
+          valInit = produto
+        }
       }
     }
-    var max = produtos.map(p => p.valor).reduce(function(a, b) {
-      return Math.max(a, b);
-    });
-    var nome = produtos.find(p => p.valor === max)
-    return nome
+    return valInit
   }, [estoque]) 
 
   const produtosQuantidade = useMemo(() => estoque.reduce((prevVal, item) => prevVal + item.produtos.length, 0), [estoque]);
