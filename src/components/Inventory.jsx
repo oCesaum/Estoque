@@ -45,6 +45,12 @@ const estoqueInicial = [
   },
 ]
 
+function pegarMaisCaroCategoria(categoriaAtual) {
+  return categoriaAtual.produtos.reduce((produtoMaisCaro, produtoAtual) => {
+    return produtoAtual.valor > produtoMaisCaro.valor ? produtoAtual : produtoMaisCaro
+  }, {valor: 0})
+}
+
 export default function Inventory() {
   const [estoque, setEstoque] = useState(estoqueInicial)
   const [ativoCategoria, setAtivoCategoria ] = useState(false)
@@ -55,12 +61,6 @@ export default function Inventory() {
   const [categoria, setCategoria ] = useState("")
 
   const categoriasQuantidade = estoque.length
-
-  function pegarMaisCaroCategoria(categoriaAtual) {
-    return categoriaAtual.produtos.reduce((produtoMaisCaro, produtoAtual) => {
-      return produtoAtual.valor > produtoMaisCaro.valor ? produtoAtual : produtoMaisCaro
-    }, {valor: 0})
-  }
 
   const pegarProdutoMaisCaro = useMemo(() => {
     return estoque.reduce((maisCaroInicial, categoriaAtual) => {
