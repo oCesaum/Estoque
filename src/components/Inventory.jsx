@@ -56,29 +56,18 @@ export default function Inventory() {
 
   const categoriasQuantidade = estoque.length
 
-  // const produtoMaisCaro = useMemo(() => {
-  //   var valInit = {valor: 0}
-  //   for (const categoria of estoque) {
-  //     for (const produto of categoria.produtos) {
-  //       if (produto.valor > valInit.valor) {
-  //         valInit = produto
-  //       }
-  //     }
-  //   }
-  //   return valInit
-  // }, [estoque]) 
-
   function pegarMaisCaroCategoria(categoriaAtual) {
     return categoriaAtual.produtos.reduce((produtoMaisCaro, produtoAtual) => {
       return produtoAtual.valor > produtoMaisCaro.valor ? produtoAtual : produtoMaisCaro
     }, {valor: 0})
   }
-  const produtoMaisCaro = estoque.reduce((maisCaroInicial, categoriaAtual) => {
-    const maisCaroCategoria = pegarMaisCaroCategoria(categoriaAtual);
-    return maisCaroInicial.valor > maisCaroCategoria.valor ? maisCaroInicial : maisCaroCategoria
-  }, {valor: 0})
 
-  console.log(produtoMaisCaro)
+  const pegarProdutoMaisCaro = useMemo(() => {
+    return estoque.reduce((maisCaroInicial, categoriaAtual) => {
+      const maisCaroCategoria = pegarMaisCaroCategoria(categoriaAtual);
+      return maisCaroInicial.valor > maisCaroCategoria.valor ? maisCaroInicial : maisCaroCategoria
+    }, {valor: 0})
+  }, [estoque]) 
 
   const produtosQuantidade = useMemo(() => estoque.reduce((prevVal, item) => prevVal + item.produtos.length, 0), [estoque]);
 
@@ -167,7 +156,7 @@ export default function Inventory() {
   return (
     <div>
       <p className='Inventory-counter-text'>Atualmente contamos com <span>{categoriasQuantidade}</span> categorias e <span>{produtosQuantidade}</span> produtos</p>
-      <p className='Inventory-counter-text'>Produto mais caro atualmente: <span>{produtoMaisCaro.nome}</span>, custando <span>R${produtoMaisCaro.valor}</span></p>
+      <p className='Inventory-counter-text'>Produto mais caro atualmente: <span>{pegarProdutoMaisCaro.nome}</span>, custando <span>R${pegarProdutoMaisCaro.valor}</span></p>
 
       <div className='Invetory-header'>
         <button 
